@@ -1,0 +1,141 @@
+// ~ 是转义 双引号内的内容都将原样输出 即 j-btn
+// @btn-prefix: ~"@{prefix}btn";
+
+.setBtnColor(@color, @percent: 10%) {
+    background-color: @color;
+    border-color    : darken(@color, 2%);
+    color           : @white-color;
+
+    &:hover {
+        border-color    : lighten(@color, @percent);
+        background-color: lighten(@color, @percent);
+    }
+
+    &:active {
+        border-color    : darken(@color, 8%);
+        background-color: darken(@color, 8%);
+    }
+
+    &.j-btn-borderless {
+        background: transparent;
+        border    : none;
+        color     : @color;
+    }
+
+    &.j-btn-borderless:hover {
+        background-color: fade(@color, 6%);
+    }
+
+}
+
+.setOutlinedBtn(@color) {
+    border-color    : @color;
+    color           : @color;
+    background-color: #fff;
+
+    &:hover {
+        background-color: fade(@color, 5%);
+    }
+
+    &:active {
+        border-color: darken(@color, 10%);
+        color       : darken(@color, 10%);
+    }
+
+
+}
+
+.j-btn {
+    outline         : none;
+    padding         : @button-size-normal-padding;
+    font-family     : inherit;
+    border-radius   : @btn-border-radius;
+    color           : inherit;
+    font-size       : @font-size-default;
+    line-height     : 1;
+    box-sizing      : border-box;
+    cursor          : pointer;
+    transition      : all @transition-time;
+    border          : 1px solid @gray1-color;
+    background-color: #ffffff;
+    .setBtnColor(@black-color-secondary);
+
+    &-primary {
+        .setBtnColor(@primary-color)
+    }
+
+    &-primary&-outlined {
+        .setOutlinedBtn(@primary-color)
+    }
+
+    &-danger {
+        .setBtnColor(@danger-color)
+    }
+
+    &-danger&-outlined {
+        .setOutlinedBtn(@danger-color)
+    }
+
+    &-black {
+        .setBtnColor(@black-color-secondary);
+    }
+
+    &-black&-outlined {
+        .setOutlinedBtn(@black-color-secondary)
+    }
+
+    &-warning {
+        .setBtnColor(@warning-color);
+    }
+
+    &-warning&-outlined {
+        .setOutlinedBtn(@warning-color)
+    }
+
+    &-success {
+        .setBtnColor(@success-color, 5%);
+    }
+
+    &-success&-outlined {
+        .setOutlinedBtn(@success-color)
+    }
+
+    &-info {
+        .setBtnColor(@info-color);
+    }
+
+    &-info&-outlined {
+        .setOutlinedBtn(@info-color)
+    }
+
+    &-round {
+        border-radius: 20px;
+    }
+
+    &-block {
+        display: block;
+        width  : 100%;
+    }
+
+    &-big {
+        padding  : 10px 20px;
+        font-size: 16px;
+    }
+
+    &-mini {
+        padding  : 3px 8px;
+        font-size: @font-size-mini;
+    }
+
+    &-small {
+        padding  : 5px 10px;
+        font-size: @font-size-small;
+    }
+
+    &:disabled {
+        cursor          : not-allowed;
+        background-color: @disabled-background-color;
+        border-color    : @disabled-border-color;
+        color           : @disabled-color;
+    }
+}
