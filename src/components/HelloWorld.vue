@@ -5,7 +5,8 @@
         <j-btn @click="jclick" type="danger" size="small"> 猫子 </j-btn>
 
         <div style="width: 400px; margin: 20px auto">
-            <j-slider v-model="sliderVal" :min="0"  :max="100" > </j-slider>
+            <div>{{ sliderVal }}</div>
+            <j-slider v-model="sliderVal" :min="0" :max="100"> </j-slider>
         </div>
     </div>
 </template>
@@ -29,7 +30,7 @@ export default {
     },
     data() {
         return {
-            sliderVal: 20
+            sliderVal: 20,
         };
     },
 };

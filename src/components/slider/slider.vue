@@ -77,16 +77,22 @@ export default {
             // 右端点的x轴上的位置
             this.nodeInfo.x = nodePos.left + nodePos.width / 2;
             // 执行mouseMove，将右端点到达点击的位置
-            this.mouseMove(event);
+            this.followMouse(event);
         },
         dragNode(side, event) {
             if (this.readonly) return;
+            // 给拖拽的节点一个样式
             utils.addClass(event.target, "j-slider-node-dragging");
+            // 记录当前节点的信息 哪一端 值 位置
             this.nodeInfo.side = side;
             this.nodeInfo.initialVal = this.values[side];
             this.nodeInfo.x = event.clientX;
+            // 监听鼠标移动的事件，执行mouseMove
+            document.body.addEventListener("mousemove", this.followMouse);
+            document.body.addEventListener("mouseup", this.mouseUp);
         },
-        mouseMove(event) {
+        // 节点将跟随鼠标的位置
+        followMouse(event) {
             if (this.readonly) return;
             // 需要移动的位移
             const dis = event.clientX - this.nodeInfo.x;
@@ -128,6 +134,17 @@ export default {
             }
             this.$emit("update:value", curValue);
         },
+        mouseUp(event){
+            event
+            document.body.removeEventListener("mousemove",this.followMouse)
+            document.body.removeEventListener("mouseup",this.mouseUp)
+
+            const node = this.$el.querySelector(".j-slider-node-dragging")
+            if (node) {
+                utils.removeClass(node, "j-slider-node-dragging")
+            }
+            
+        }
     },
 };
 </script>
