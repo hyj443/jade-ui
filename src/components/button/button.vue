@@ -30,10 +30,7 @@ export default {
             default: "normal",
             validator: (val) => sizeOptions.includes(val),
         },
-        disabled: {
-            type: Boolean,
-            default: false,
-        },
+        disabled: {type: Boolean, default: false},
     },
     computed: {
         btnClass() {
