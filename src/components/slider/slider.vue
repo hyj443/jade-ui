@@ -7,7 +7,12 @@
                 :style="trackStyle"
                 @mousedown="locate"
             ></div>
-
+            <div
+                v-if="multiple"
+                class="j-slider-node j-slider-start-node"
+                :style="{ left: nodePosition.start }"
+                @mousedown="dragNode('start', $event)"
+            ></div>
             <div
                 class="j-slider-node j-slider-end-node"
                 :style="{ left: nodePosition.end }"
@@ -31,6 +36,7 @@ export default {
         value: { type: [Number, Object], default: 0 },
     },
     computed: {
+        // 横条的样式
         trackStyle() {
             const len = this.max - this.min;
             return {
@@ -38,6 +44,7 @@ export default {
                 right: `${((this.max - this.values.end) / len) * 100}%`,
             };
         },
+        // 左右节点的相对偏移
         nodePosition() {
             const len = this.max - this.min;
             return {
@@ -45,67 +52,74 @@ export default {
                 end: `${100 - ((this.max - this.values.end) / len) * 100}%`,
             };
         },
+        // 左右节点对应的值
         values() {
-            if (!this.multiple) {
-                return { start: this.min, end: this.value };
+            if (this.multiple) {
+                return Object.assign(
+                    { start: this.min, end: this.max },
+                    this.value
+                );
             }
-            return Object.assign(
-                { start: this.min, end: this.max },
-                this.value
-            );
+            return { start: this.min, end: this.value };
         },
     },
     data() {
         return {
+            // 当前节点的信息 属于哪一端 初始值 位置
             nodeInfo: {
                 side: null,
                 initialVal: null,
-                x: null,
+                pos: null,
             },
         };
     },
     methods: {
+        // 通过鼠标点击 将节点定位到新的位置
         locate(event) {
-            if (this.multiple) return;
-            // 获取右端点的位置信息
-            let nodePos = this.$el
+            let endNodePos = this.$el
                 .querySelector(".j-slider-end-node")
                 .getBoundingClientRect();
-            this.nodeInfo.side = "end";
-            // 当前的右端点value
-            this.nodeInfo.initialVal = this.values.end;
-            // 右端点的x轴上的位置
-            this.nodeInfo.x = nodePos.left + nodePos.width / 2;
-            // 执行mouseMove，将右端点到达点击的位置
+            let startNodePos = this.$el
+                .querySelector(".j-slider-start-node")
+                .getBoundingClientRect();
+            const mousePos = event.clientX;
+            if (
+                this.multiple &&
+                mousePos - startNodePos.left < endNodePos.left - mousePos
+            ) {
+                this.nodeInfo.side = "start";
+                this.nodeInfo.initialVal = this.values.start;
+                this.nodeInfo.pos = startNodePos.left + startNodePos.width / 2;
+            } else {
+                this.nodeInfo.side = "end";
+                this.nodeInfo.initialVal = this.values.end;
+                this.nodeInfo.pos = endNodePos.left + endNodePos.width / 2;
+            }
+
             this.followMouse(event);
+            document.body.addEventListener("mousemove", this.followMouse);
+            document.body.addEventListener("mouseup", this.mouseUp);
         },
         dragNode(side, event) {
             if (this.readonly) return;
-            // 给拖拽的节点一个样式
             utils.addClass(event.target, "j-slider-node-dragging");
-            // 记录当前节点的信息 哪一端 值 位置
             this.nodeInfo.side = side;
             this.nodeInfo.initialVal = this.values[side];
-            this.nodeInfo.x = event.clientX;
-            // 监听鼠标移动的事件，执行mouseMove
+            this.nodeInfo.pos = event.clientX;
             document.body.addEventListener("mousemove", this.followMouse);
             document.body.addEventListener("mouseup", this.mouseUp);
         },
         // 节点将跟随鼠标的位置
         followMouse(event) {
             if (this.readonly) return;
-            // 需要移动的位移
-            const dis = event.clientX - this.nodeInfo.x;
-            // 不需要移动
+            const dis = event.clientX - this.nodeInfo.pos;
             if (dis === 0) return;
             const lineLen = this.$el.querySelector(".j-slider-line")
                 .clientWidth;
-            // 变动的位移量与总长的比例
+
             const ratio = dis / lineLen;
             const deletaValue = parseInt(ratio * (this.max - this.min), 10);
-            // 新的应该去到的值
             let newValue = this.nodeInfo.initialVal + deletaValue;
-            // 求余数
             const remain = newValue % this.step;
             if (remain !== 0) {
                 if (remain < this.step / 2) {
@@ -114,37 +128,37 @@ export default {
                     newValue = newValue + this.step - remain;
                 }
             }
-            // 不能越界，约束一下
             newValue = Math.max(newValue, this.min);
             newValue = Math.min(newValue, this.max);
-
             let curValue = null;
-            // let side = this.nodeInfo.side;
-
             if (this.multiple) {
-                //
+                if (this.nodeInfo.side == "start") {
+                    curValue = Object.assign(
+                        { start: this.values.start, end: this.values.end },
+                        { start: newValue }
+                    );
+                } else {
+                    curValue = Object.assign(
+                        { start: this.values.start, end: this.values.end },
+                        { end: newValue }
+                    );
+                }
             } else {
-                // 如果只有右端点，那newValue就是新值
                 curValue = newValue;
-                // 派发两个事件
-                this.$emit("input", curValue);
-                this.$emit("change", curValue);
-                //
-                // side = "end";
             }
+            this.$emit("input", curValue);
+            this.$emit("change", curValue);
             this.$emit("update:value", curValue);
         },
-        mouseUp(event){
-            event
-            document.body.removeEventListener("mousemove",this.followMouse)
-            document.body.removeEventListener("mouseup",this.mouseUp)
-
-            const node = this.$el.querySelector(".j-slider-node-dragging")
+        mouseUp(event) {
+            event;
+            document.body.removeEventListener("mousemove", this.followMouse);
+            document.body.removeEventListener("mouseup", this.mouseUp);
+            const node = this.$el.querySelector(".j-slider-node-dragging");
             if (node) {
-                utils.removeClass(node, "j-slider-node-dragging")
+                utils.removeClass(node, "j-slider-node-dragging");
             }
-            
-        }
+        },
     },
 };
 </script>
