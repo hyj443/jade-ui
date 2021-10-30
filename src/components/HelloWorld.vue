@@ -7,8 +7,8 @@
         <div style="width: 400px; margin: 20px auto">
             <div>{{ sliderVal }}</div>
             <j-slider v-model="sliderVal" :min="6" :max="101" 
-                multiple
             > </j-slider>
+                <!-- multiple -->
         </div>
     </div>
 </template>
@@ -32,10 +32,11 @@ export default {
     },
     data() {
         return {
-            sliderVal: {
-                start:11,
-                end:57
-            },
+            sliderVal:56 ,
+            // {
+            //     start:11,
+            //     end:57
+            // }
         };
     },
 };

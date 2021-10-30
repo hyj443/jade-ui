@@ -76,20 +76,21 @@ export default {
     methods: {
         // 通过鼠标点击 将节点定位到新的位置
         locate(event) {
-            let endNodePos = this.$el
+            const endNodePos = this.$el
                 .querySelector(".j-slider-end-node")
                 .getBoundingClientRect();
-            let startNodePos = this.$el
-                .querySelector(".j-slider-start-node")
-                .getBoundingClientRect();
-            const mousePos = event.clientX;
-            if (
-                this.multiple &&
-                mousePos - startNodePos.left < endNodePos.left - mousePos
-            ) {
-                this.nodeInfo.side = "start";
-                this.nodeInfo.initialVal = this.values.start;
-                this.nodeInfo.pos = startNodePos.left + startNodePos.width / 2;
+
+            if (this.multiple) {
+                const startNodePos = this.$el
+                    .querySelector(".j-slider-start-node")
+                    .getBoundingClientRect();
+                const mousePos = event.clientX;
+                if (mousePos - startNodePos.left < endNodePos.left - mousePos) {
+                    this.nodeInfo.side = "start";
+                    this.nodeInfo.initialVal = this.values.start;
+                    this.nodeInfo.pos =
+                        startNodePos.left + startNodePos.width / 2;
+                }
             } else {
                 this.nodeInfo.side = "end";
                 this.nodeInfo.initialVal = this.values.end;
