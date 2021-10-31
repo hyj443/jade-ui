@@ -6,7 +6,7 @@
 
         <div style="width: 400px; margin: 20px auto">
             <div>{{ sliderVal }}</div>
-            <j-slider v-model="sliderVal" :min="6" :max="101" 
+            <j-slider v-model="sliderVal" :min="6" :max="101"  multiple
             > </j-slider>
                 <!-- multiple -->
         </div>
@@ -32,11 +32,11 @@ export default {
     },
     data() {
         return {
-            sliderVal:56 ,
-            // {
-            //     start:11,
-            //     end:57
-            // }
+            sliderVal:{
+                start:11,
+                end:57
+            } ,
+            
         };
     },
 };
