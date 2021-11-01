@@ -5,40 +5,36 @@
         <j-btn @click="jclick" type="danger" size="small"> 猫子 </j-btn>
 
         <div style="width: 400px; margin: 20px auto">
-            <div>{{ sliderVal }}</div>
-            <j-slider v-model="sliderVal" :min="6" :max="101"  multiple
-            > </j-slider>
-                <!-- multiple -->
+           
+            <j-select v-model="sliderVal" :options="param2"> </j-select> 
+            
         </div>
     </div>
 </template>
 
 <script>
 import jBtn from "./button/button";
-import jSlider from "./slider/slider";
+import jSelect from "./select/select";
 export default {
     name: "HelloWorld",
     props: {
-        msg: String,
+        msg: String
     },
     components: {
         jBtn,
-        jSlider,
+        jSelect
     },
     methods: {
         jclick() {
             alert("helloworld");
-        },
+        }
     },
     data() {
         return {
-            sliderVal:{
-                start:11,
-                end:57
-            } ,
-            
+            sliderVal: null,
+             param2: [{ title: '选择0', key: 0 },{ title: '选择1', key: 'a1', other: '其他值' }, { title: '选择2', key: 'a2' }, { title: '选择3', key: 'a3' }]
         };
-    },
+    }
 };
 </script>
 

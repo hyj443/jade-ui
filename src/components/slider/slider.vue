@@ -101,6 +101,7 @@ export default {
             this.followMouse(event);
             document.body.addEventListener("mousemove", this.followMouse);
             document.body.addEventListener("mouseup", this.mouseUp);
+            document.body.addEventListener("click", this.stop);
         },
         dragNode(side, event) {
             if (this.readonly) return;
@@ -110,6 +111,7 @@ export default {
             this.operatingNode.pos = event.clientX;
             document.body.addEventListener("mousemove", this.followMouse);
             document.body.addEventListener("mouseup", this.mouseUp);
+            document.body.addEventListener("click", this.stop);
         },
         // 节点将跟随鼠标的位置
         followMouse(event) {
@@ -172,18 +174,18 @@ export default {
             if (this.readonly) return;
             document.body.removeEventListener("mousemove", this.followMouse);
             document.body.removeEventListener("mouseup", this.mouseUp);
+            document.body.removeEventListener("click", this.stop);
             utils.removeClass(
                 this.getNode(".j-slider-node-dragging"),
                 "j-slider-node-dragging"
             );
         },
-        // switchSide(){
-        //     this.operatingNode.side= getOpposite[this.operatingNode.side]
-        // },
+        stop(event) {
+            event.stopPropagation();
+        },
         getNode(name) {
             return this.$el.querySelector(name);
         }
     }
 };
 </script>
-
