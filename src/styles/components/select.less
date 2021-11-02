@@ -1,12 +1,51 @@
+.j-select {
+    display  : inline-block;
+    min-width: 120px;
+    position : relative;
+
+    &-selection {
+        height          : 32px;
+        border          : 1px solid #d3dae6;
+        display         : flex;
+        justify-content : space-between;
+        align-items     : center;
+        cursor          : pointer;
+        background-color: #fff;
+        box-sizing      : border-box;
+        border-radius   : 4px;
+        line-height     : 1;
+        padding         : 0 8px 0 12px;
+        outline         : none;
+        transition      : all .25s linear;
+        text-align      : left;
+        user-select     : none;
+        position        : relative;
+
+        &:hover {
+            border-color: darken(@primary-color, 10%);
+        }
+
+        &--disabled {
+            cursor          : not-allowed;
+            background-color: @disabled-background-color;
+            border-color    : @disabled-border-color;
+            color           : @disabled-color;
+        }
+
+        &:focus:not(&--disabled) {
+            border-color: @primary-color;
+            box-shadow  : 0 2px 3px fade(@primary-color, 20%), 0 0 0 2px fade(@primary-color, 10%);
 
 
+        }
+    }
 
-.j-select{
-    display: inline-block;
-    min-width: 100px;
-
-
-    &-selection{
-        
+    &-placeholder {
+        font-size    : 14px;
+        color        : #787878;
+        line-height  : 1.2;
+        word-wrap    : normal;
+        white-space  : nowrap;
+        text-emphasis: ellipsis;
     }
 }

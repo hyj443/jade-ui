@@ -5,9 +5,9 @@
             <template v-else>
                 <template v-if="filterable"></template>
                 <template v-else>
-                    <div class="j-select-placeholder">
+                    <span class="j-select-placeholder">
                         {{ placeholder }}
-                    </div>
+                    </span>
                 </template>
             </template>
         </div>
