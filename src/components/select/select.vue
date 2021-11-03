@@ -1,6 +1,6 @@
 <template>
     <div :class="selectClass">
-        <div :class="selectionClass">
+        <div :class="selectionClass" @click="toggleDropdown">
             <template v-if="multiple"> </template>
             <template v-else>
                 <template v-if="filterable"></template>
@@ -11,7 +11,23 @@
                 </template>
             </template>
         </div>
-        <div :class="listClass"></div>
+        <transition name="drop-down">
+            <div :class="dropdownClass" v-if="isOpen">
+                <ul class="j-select-list">
+                    <li
+                        v-for="(opt, i) in options"
+                        :key="i"
+                        class="j-select-option"
+                        :class="
+                            selectedIndex === i && 'j-select-option--selected'
+                        "
+                        @click="pickOption(i)"
+                    >
+                        {{ getOptionKey(opt) }}
+                    </li>
+                </ul>
+            </div>
+        </transition>
     </div>
 </template>
 
@@ -23,10 +39,14 @@ export default {
         multiple: { type: Boolean, default: false },
         disabled: { type: Boolean, default: false },
         clearable: { type: Boolean, default: true },
-        options: [Array, Object],
+        options: { type: Array, default: () => [] },
         placeholder: { type: String, default: "请选择" }
     },
-
+    data(){
+        return {
+            isOpen:false
+        }
+    },
     computed: {
         selectClass() {
             return {
@@ -40,12 +60,32 @@ export default {
                 [prefix + "-selection"]: true
             };
         },
-        listClass() {
+        dropdownClass() {
             return {
-                [prefix + "-list"]: true,
+                [prefix + "-dropdown"]: true,
                 [prefix + "-simple"]: !this.multiple,
                 [prefix + "-multiple"]: this.multiple
             };
+        }
+    },
+    methods: {
+        toggleDropdown(){
+            if (this.disabled) {
+                this.isOpen=false
+                return
+            }else if (this.isOpen){
+                this.isOpen=false
+                // 
+            }else{
+                this.isOpen=true
+
+            }
+        },
+        pickOption(i) {
+            i
+        },
+        getOptionKey(option) {
+            return typeof option == "object" ? option.key : option;
         }
     }
 };

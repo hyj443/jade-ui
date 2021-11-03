@@ -41,10 +41,9 @@ export default {
             },
             selectVal: null,
             param2: [
-                { title: "选择0", key: 0 },
-                { title: "选择1", key: "a1"},
-                { title: "选择2", key: "a2" },
-                { title: "选择3", key: "a3" }
+                { value: "选择1", key: "a1"},
+                { value: "选择2", key: "a2" },
+                { value: "选择3", key: "a3" }
             ]
         };
     }
