@@ -5,7 +5,7 @@
         <j-btn @click="jclick" type="danger" size="small"> 猫子 </j-btn>
 
         <div style="width: 400px; margin: 20px auto">
-            <div>start:{{sliderVal.start}} end:{{sliderVal.end}}</div>
+            <div>start:{{ sliderVal.start }} end:{{ sliderVal.end }}</div>
             <j-slider v-model="sliderVal" :min="20" :max="200" multiple>
             </j-slider>
             <j-select v-model="selectVal" :options="param2"> </j-select>
@@ -41,9 +41,38 @@ export default {
             },
             selectVal: null,
             param2: [
-                { value: "选择1", key: "a1"},
+                { value: "选择1", key: "a1" },
                 { value: "选择2", key: "a2" },
-                { value: "选择3", key: "a3" }
+                { value: "选择3", key: "a3" },
+                { value: "选择1", key: "a1" },
+                { value: "选择2", key: "a2" },
+                { value: "选择3", key: "a3" },
+                { value: "选择1", key: "a1" },
+                { value: "选择2", key: "a2" },
+                { value: "选择3", key: "a3" },
+                { value: "选择1", key: "a1" },
+                { value: "选择2", key: "a2" },
+                { value: "选择3", key: "a3" },
+                { value: "选择1", key: "a1" },
+                { value: "选择1", key: "a1" },
+                { value: "选择1", key: "a1" },
+                { value: "选择1", key: "a1" },
+                { value: "选择1", key: "a1" },
+                { value: "选择1", key: "a1" },
+                { value: "选择1", key: "a1" },
+                { value: "选择1", key: "a1" },
+                { value: "选择1", key: "a1" },
+                { value: "选择1", key: "a1" },
+                { value: "选择1", key: "a1" },
+                { value: "选择1", key: "a1" },
+                { value: "选择1", key: "a1" },
+                { value: "选择1", key: "a1" },
+                { value: "选择1", key: "a1" },
+                { value: "选择1", key: "a1" },
+                { value: "选择1", key: "a1" },
+                { value: "选择1", key: "a1" },
+                { value: "选择1", key: "a1" },
+                { value: "选择2", key: "a2" },
             ]
         };
     }

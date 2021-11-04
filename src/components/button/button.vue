@@ -5,7 +5,7 @@
         :disabled="!!this.disabled"
         @click="handleClick"
     >
-        <!-- 如果button的插槽位置没有节点，即按钮没有文字，span标签就不会创建 -->
+        <!-- 如果button的插槽位置没有节点，span标签就不会创建 -->
         <span v-if="$slots.default"><slot></slot></span>
     </button>
 </template>
