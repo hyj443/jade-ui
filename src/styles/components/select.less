@@ -75,9 +75,9 @@
             width: 10px;
         }
 
-        &::-webkit-scrollbar-track {
-            background-color: #f1f1f1;
-        }
+        // &::-webkit-scrollbar-track {
+        //     background-color: #f1f1f1;
+        // }
 
         &::-webkit-scrollbar-thumb {
             background-color: fade(@primary-color, 20%);
@@ -90,16 +90,21 @@
     }
 
     &-option {
-        width           : 100%;
-        line-height     : 1;
-        padding         : 8 px 10 px;
-        overflow        : hidden;
-        max-width       : 100%;
-        display         : block;
-        text-overflow   : ellipsis;
-        box-sizing      : border-box;
-        white-space     : nowrap;
-        word-wrap       : normal;
-        position        : relative;
+        width        : 100%;
+        line-height  : 1;
+        padding      : 8px 10px;
+        overflow     : hidden;
+        max-width    : 100%;
+        display      : block;
+        text-overflow: ellipsis;
+        box-sizing   : border-box;
+        white-space  : nowrap;
+        word-wrap    : normal;
+        position     : relative;
+
+        &:hover {
+            background-color: #eee;
+            cursor: pointer;
+        }
     }
 }

@@ -6,7 +6,7 @@
                 <template v-if="filterable"></template>
                 <template v-else>
                     <span class="j-select-placeholder">
-                        {{ placeholder }}
+                        {{ value || placeholder }}
                     </span>
                 </template>
             </template>
@@ -40,12 +40,14 @@ export default {
         disabled: { type: Boolean, default: false },
         clearable: { type: Boolean, default: true },
         options: { type: Array, default: () => [] },
-        placeholder: { type: String, default: "请选择" }
+        placeholder: { type: String, default: "请选择" },
+        value: { type: [String, Number, Object], default: null }
     },
-    data(){
+    data() {
         return {
-            isOpen:false
-        }
+            isOpen: false,
+            selectedIndex: -1
+        };
     },
     computed: {
         selectClass() {
@@ -69,20 +71,24 @@ export default {
         }
     },
     methods: {
-        toggleDropdown(){
+        toggleDropdown() {
             if (this.disabled) {
-                this.isOpen=false
-                return
-            }else if (this.isOpen){
-                this.isOpen=false
-                // 
-            }else{
-                this.isOpen=true
-
+                this.isOpen = false;
+                return;
+            } else if (this.isOpen) {
+                this.isOpen = false;
+                //
+            } else {
+                this.isOpen = true;
             }
         },
         pickOption(i) {
-            i
+            this.selectedIndex = i;
+            const opt = this.options[i];
+            // this.$emit("update:value", opt);
+            // this.$emit("change", opt);
+            this.$emit("input", opt);
+            this.value
         },
         getOptionKey(option) {
             return typeof option == "object" ? option.key : option;
