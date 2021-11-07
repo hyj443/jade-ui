@@ -25,18 +25,20 @@
             border-color: darken(@primary-color, 10%);
         }
 
-        &--disabled {
+        &-disabled {
             cursor          : not-allowed;
             background-color: @disabled-background-color;
             border-color    : @disabled-border-color;
             color           : @disabled-color;
+
+            &:hover {
+                border-color: @disabled-border-color;
+            }
         }
 
         &:focus:not(&--disabled) {
             border-color: @primary-color;
             box-shadow  : 0 2px 3px fade(@primary-color, 20%), 0 0 0 2px fade(@primary-color, 10%);
-
-
         }
     }
 
@@ -102,9 +104,14 @@
         word-wrap    : normal;
         position     : relative;
 
-        &:hover {
+        &:hover:not(&--selected) {
             background-color: #eee;
-            cursor: pointer;
+            cursor          : pointer;
+        }
+
+        &--selected {
+            background-color: fade(@primary-color, 10%);
+
         }
     }
 }

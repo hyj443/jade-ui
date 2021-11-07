@@ -1,12 +1,23 @@
 <template>
     <div :class="selectClass">
-        <div :class="selectionClass" @click="toggleDropdown">
+        <div
+            :class="selectionClass"
+            @click="toggleDropdown"
+            v-clickoutside="() => setOpen(false)"
+        >
             <template v-if="multiple"> </template>
             <template v-else>
                 <template v-if="filterable"></template>
                 <template v-else>
-                    <span class="j-select-placeholder">
-                        {{ value || placeholder }}
+                    <span v-if="value.value" class="j-select-selected">
+                        <slot name="show-selected" :selected="value">
+                            {{ value.label }}
+                        </slot>
+                    </span>
+                    <span v-else class="j-select-placeholder">
+                        <slot name="placeholder" :placeholder="placeholder">
+                            {{ placeholder }}
+                        </slot>
                     </span>
                 </template>
             </template>
@@ -32,6 +43,8 @@
 </template>
 
 <script>
+import { clickOutside } from "@/directives/index";
+
 const prefix = "j-select";
 export default {
     name: "jSelect",
@@ -39,6 +52,7 @@ export default {
         multiple: { type: Boolean, default: false },
         disabled: { type: Boolean, default: false },
         clearable: { type: Boolean, default: true },
+        filterable: { type: Boolean, default: false },
         options: { type: Array, default: () => [] },
         placeholder: { type: String, default: "请选择" },
         value: { type: [String, Number, Object], default: null }
@@ -53,13 +67,13 @@ export default {
         selectClass() {
             return {
                 [prefix]: true,
-                [prefix + "-multiple"]: this.multiple,
-                [prefix + "-disabled"]: this.disabled
+                [prefix + "-multiple"]: this.multiple
             };
         },
         selectionClass() {
             return {
-                [prefix + "-selection"]: true
+                [prefix + "-selection"]: true,
+                [prefix + "-selection-disabled"]: this.disabled
             };
         },
         dropdownClass() {
@@ -73,26 +87,29 @@ export default {
     methods: {
         toggleDropdown() {
             if (this.disabled) {
-                this.isOpen = false;
+                this.setOpen(false);
                 return;
             } else if (this.isOpen) {
-                this.isOpen = false;
-                //
+                this.setOpen(false);
             } else {
-                this.isOpen = true;
+                this.setOpen(true);
             }
+        },
+        setOpen(state) {
+            this.isOpen = state;
         },
         pickOption(i) {
             this.selectedIndex = i;
             const opt = this.options[i];
-            // this.$emit("update:value", opt);
-            // this.$emit("change", opt);
             this.$emit("input", opt);
-            this.value
+            this.toggleDropdown();
         },
         getOptionKey(option) {
-            return typeof option == "object" ? option.key : option;
+            return typeof option == "object" ? option.label : option;
         }
+    },
+    directives: {
+        clickoutside: clickOutside
     }
 };
 </script>

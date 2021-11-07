@@ -8,7 +8,8 @@
             <div>start:{{ sliderVal.start }} end:{{ sliderVal.end }}</div>
             <j-slider v-model="sliderVal" :min="20" :max="200" multiple>
             </j-slider>
-            <j-select v-model="selectVal" @change="getValue"  :options="param2"> </j-select>
+            <j-select v-model="selectVal" @change="getValue" :options="param2">
+            </j-select>
         </div>
     </div>
 </template>
@@ -32,10 +33,10 @@ export default {
         jclick() {
             alert("helloworld");
         },
-        getValue(a){
-            debugger
-            a
-            this.selectVal
+        getValue(a) {
+            debugger;
+            a;
+            this.selectVal;
         }
     },
     data() {
@@ -44,11 +45,11 @@ export default {
                 start: 42,
                 end: 78
             },
-            selectVal: '',
+            selectVal: "",
             param2: [
-                { value: "选择1", key: "a1" },
-                { value: "选择2", key: "a2" },
-                { value: "选择3", key: "a3" }
+                { value: "选择1", label: "a1" },
+                { value: "选择2", label: "a2" },
+                { value: "选择3", label: "a3" }
             ]
         };
     }
