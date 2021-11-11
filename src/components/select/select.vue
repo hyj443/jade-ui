@@ -29,9 +29,7 @@
                         v-for="(opt, i) in options"
                         :key="i"
                         class="j-select-option"
-                        :class="
-                            selectedIndex === i && 'j-select-option--selected'
-                        "
+                        :class="getLiClass(opt, i)"
                         @click="pickOption(i)"
                     >
                         {{ getOptionKey(opt) }}
@@ -94,6 +92,12 @@ export default {
             } else {
                 this.setOpen(true);
             }
+        },
+        getLiClass(option, index) {
+            return {
+                [prefix + "-option--selected"]: this.selectedIndex === index,
+                [prefix + "-option--disabled"]: option.disabled
+            };
         },
         setOpen(state) {
             this.isOpen = state;

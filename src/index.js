@@ -1,4 +1,4 @@
-import Button from '@/components/button';
+import Button from 'w2                                                                                                                                                                                                                                        components/button';
 import Slider from '@/components/slider';
 
 const components = {
@@ -25,6 +25,6 @@ const install = function (Vue, options = {}) {
     }
 };
 
-if (typeof window!=="undefined"&& window.Vue) {
-    install(window.Vue)
+if (typeof window !== "undefined" && window.Vue) {
+    install(window.Vue);
 }

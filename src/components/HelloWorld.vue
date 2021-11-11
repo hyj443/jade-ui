@@ -47,7 +47,7 @@ export default {
             },
             selectVal: "",
             param2: [
-                { value: "选择1", label: "a1" },
+                { value: "选择1", label: "a1" ,disabled:true},
                 { value: "选择2", label: "a2" },
                 { value: "选择3", label: "a3" }
             ]
