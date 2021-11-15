@@ -1,0 +1,23 @@
+{
+  "id": "2940269",
+  "name": "jade-ui",
+  "font_family": "jadeui",
+  "css_prefix_text": "icon-",
+  "description": "vue ui 组件库",
+  "glyphs": [
+    {
+      "icon_id": "6447193",
+      "name": "取消",
+      "font_class": "quxiao",
+      "unicode": "e64a",
+      "unicode_decimal": 58954
+    },
+    {
+      "icon_id": "14151841",
+      "name": "确认",
+      "font_class": "queren",
+      "unicode": "e633",
+      "unicode_decimal": 58931
+    }
+  ]
+}

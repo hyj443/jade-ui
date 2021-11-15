@@ -8,7 +8,9 @@
             <div>start:{{ sliderVal.start }} end:{{ sliderVal.end }}</div>
             <j-slider v-model="sliderVal" :min="20" :max="200" multiple>
             </j-slider>
-            <j-select v-model="selectVal" @change="getValue" :options="param2">
+            <j-select v-model="selectVal" 
+            multiple
+            @change="getValue" :options="param2">
             </j-select>
         </div>
     </div>
@@ -47,7 +49,7 @@ export default {
             },
             selectVal: "",
             param2: [
-                { value: "选择1", label: "a1" ,disabled:true},
+                { value: "选择1", label: "a1", disabled: true },
                 { value: "选择2", label: "a2" },
                 { value: "选择3", label: "a3" }
             ]

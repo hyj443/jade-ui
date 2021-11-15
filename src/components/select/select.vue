@@ -2,10 +2,18 @@
     <div :class="selectClass">
         <div
             :class="selectionClass"
+            :tabindex="disabled ? -1 : 0"
             @click="toggleDropdown"
             v-clickoutside="() => setOpen(false)"
         >
-            <template v-if="multiple"> </template>
+            <template v-if="multiple"> 
+                <div class="j-select-multiple-tags">
+                    <span>111</span>
+                    <i class="icon-queren"></i>
+                </div>
+
+            
+            </template>
             <template v-else>
                 <template v-if="filterable"></template>
                 <template v-else>
@@ -30,9 +38,17 @@
                         :key="i"
                         class="j-select-option"
                         :class="getLiClass(opt, i)"
-                        @click="pickOption(i)"
+                        @click="pickOption(opt, i)"
                     >
-                        {{ getOptionKey(opt) }}
+                        <!-- -->
+                        <slot name="option" :option="opt">
+                            {{ getOptionKey(opt) }}
+                            <!-- <span
+                                v-if="i == selectedIndex"
+                                class="j-select-option-check"
+                            >
+                            </span> -->
+                        </slot>
                     </li>
                 </ul>
             </div>
@@ -53,10 +69,12 @@ export default {
         filterable: { type: Boolean, default: false },
         options: { type: Array, default: () => [] },
         placeholder: { type: String, default: "请选择" },
+        // 组件上使用v-model，相当于组件内部接收value prop
         value: { type: [String, Number, Object], default: null }
     },
     data() {
         return {
+            // 是否显示下拉框
             isOpen: false,
             selectedIndex: -1
         };
@@ -86,7 +104,6 @@ export default {
         toggleDropdown() {
             if (this.disabled) {
                 this.setOpen(false);
-                return;
             } else if (this.isOpen) {
                 this.setOpen(false);
             } else {
@@ -102,10 +119,13 @@ export default {
         setOpen(state) {
             this.isOpen = state;
         },
-        pickOption(i) {
+        pickOption(option, i) {
+            if (option.disabled) {
+                return;
+            }
             this.selectedIndex = i;
-            const opt = this.options[i];
-            this.$emit("input", opt);
+            // 派发input事件，将v-model绑定的值改为option，同时value prop也变为option
+            this.$emit("input", option);
             this.toggleDropdown();
         },
         getOptionKey(option) {
@@ -113,6 +133,7 @@ export default {
         }
     },
     directives: {
+        // 点击外部 收起下拉框
         clickoutside: clickOutside
     }
 };
