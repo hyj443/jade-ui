@@ -8,6 +8,7 @@
             <div>start:{{ sliderVal.start }} end:{{ sliderVal.end }}</div>
             <j-slider v-model="sliderVal" :min="20" :max="200" multiple>
             </j-slider>
+            {{selectVal}}
             <j-select v-model="selectVal" 
             multiple
             @change="getValue" :options="param2">

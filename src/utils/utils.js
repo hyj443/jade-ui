@@ -51,6 +51,20 @@ export default {
                 }
             }
         }
+    },
+    // 数组中存在val元素就删除，不存在就添加
+    toggleVal(arr, val) {
+        if (!Array.isArray(arr)) {
+            return [val];
+        }
+        let resArr = [...arr];
+        let index = arr.findIndex((item) => item == val);
+        if (index === -1) {
+            resArr.push(val);
+        } else {
+            resArr.splice(index, 1);
+        }
+        return resArr;
     }
 };
 

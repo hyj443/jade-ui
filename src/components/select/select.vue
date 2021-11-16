@@ -6,20 +6,15 @@
             @click="toggleDropdown"
             v-clickoutside="() => setOpen(false)"
         >
-            <template v-if="multiple"> 
-                <div class="j-select-multiple-tags">
-                    <span>111</span>
-                    <i class="icon-queren"></i>
-                </div>
-
-            
+            <template v-if="multiple">
+                <div class="j-select-multiple-tags"></div>
             </template>
             <template v-else>
                 <template v-if="filterable"></template>
                 <template v-else>
-                    <span v-if="value.value" class="j-select-selected">
+                    <span v-if="value" class="j-select-selected">
                         <slot name="show-selected" :selected="value">
-                            {{ value.label }}
+                            {{ value }}
                         </slot>
                     </span>
                     <span v-else class="j-select-placeholder">
@@ -58,6 +53,7 @@
 
 <script>
 import { clickOutside } from "@/directives/index";
+import utils from "@/utils/utils";
 
 const prefix = "j-select";
 export default {
@@ -67,6 +63,7 @@ export default {
         disabled: { type: Boolean, default: false },
         clearable: { type: Boolean, default: true },
         filterable: { type: Boolean, default: false },
+        selectType: { type: String, default: "value" },
         options: { type: Array, default: () => [] },
         placeholder: { type: String, default: "请选择" },
         // 组件上使用v-model，相当于组件内部接收value prop
@@ -76,7 +73,9 @@ export default {
         return {
             // 是否显示下拉框
             isOpen: false,
-            selectedIndex: -1
+            selectedIndex: -1,
+            // 被选中的选项
+            picked: []
         };
     },
     computed: {
@@ -120,12 +119,18 @@ export default {
             this.isOpen = state;
         },
         pickOption(option, i) {
-            if (option.disabled) {
+            if (this.disabled || option.disabled) {
                 return;
             }
+            if (this.multiple) {
+                this.picked = utils.toggleVal(this.picked, option.label);
+            } else {
+                this.picked = option.label;
+            }
+
             this.selectedIndex = i;
             // 派发input事件，将v-model绑定的值改为option，同时value prop也变为option
-            this.$emit("input", option);
+            this.$emit("input", this.picked);
             this.toggleDropdown();
         },
         getOptionKey(option) {
@@ -135,7 +140,8 @@ export default {
     directives: {
         // 点击外部 收起下拉框
         clickoutside: clickOutside
-    }
+    },
+    beforeMount() {}
 };
 </script>
 
