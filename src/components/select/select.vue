@@ -22,6 +22,7 @@
                             {{ placeholder }}
                         </slot>
                     </span>
+                    <i class="icon-xiala"></i>
                 </template>
             </template>
         </div>
@@ -88,7 +89,8 @@ export default {
         selectionClass() {
             return {
                 [prefix + "-selection"]: true,
-                [prefix + "-selection-disabled"]: this.disabled
+                [prefix + "-selection--active"]: this.isOpen,
+                [prefix + "-selection--disabled"]: this.disabled
             };
         },
         dropdownClass() {
@@ -101,11 +103,14 @@ export default {
     },
     methods: {
         toggleDropdown() {
+            
             if (this.disabled) {
                 this.setOpen(false);
             } else if (this.isOpen) {
                 this.setOpen(false);
             } else {
+                // let el=   this.$el.querySelector("j-select-selection")
+                // utils.addClass(el, "drop-down")
                 this.setOpen(true);
             }
         },
@@ -123,9 +128,9 @@ export default {
                 return;
             }
             if (this.multiple) {
-                this.picked = utils.toggleVal(this.picked, option.label);
+                this.picked = utils.toggleVal(this.picked, option.value);
             } else {
-                this.picked = option.label;
+                this.picked = option.value;
             }
 
             this.selectedIndex = i;
@@ -135,13 +140,26 @@ export default {
         },
         getOptionKey(option) {
             return typeof option == "object" ? option.label : option;
+        },
+        parse(){
+            if (this.multiple) {
+                // 
+            } else {
+                if (this.selectType=="value") {
+                    this.picked = this.value
+                } else {
+                    // 
+                }
+            }
         }
     },
     directives: {
         // 点击外部 收起下拉框
         clickoutside: clickOutside
     },
-    beforeMount() {}
+    beforeMount() {
+        this.parse()
+    }
 };
 </script>
 

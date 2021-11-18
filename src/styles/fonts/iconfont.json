@@ -6,6 +6,20 @@
   "description": "vue ui 组件库",
   "glyphs": [
     {
+      "icon_id": "672036",
+      "name": "下拉",
+      "font_class": "xiala",
+      "unicode": "e6b9",
+      "unicode_decimal": 59065
+    },
+    {
+      "icon_id": "4425828",
+      "name": "上拉",
+      "font_class": "shangla",
+      "unicode": "e797",
+      "unicode_decimal": 59287
+    },
+    {
       "icon_id": "6447193",
       "name": "取消",
       "font_class": "quxiao",
