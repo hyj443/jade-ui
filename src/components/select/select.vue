@@ -3,7 +3,7 @@
         <div
             :class="selectionClass"
             :tabindex="disabled ? -1 : 0"
-            @click="toggleDropdown"
+            @click.stop="toggleDropdown"
             v-clickoutside="() => setOpen(false)"
         >
             <template v-if="multiple">
@@ -27,23 +27,17 @@
             </template>
         </div>
         <transition name="drop-down">
-            <div :class="dropdownClass" v-if="isOpen">
+            <div :class="dropdownClass" v-if="isOpen" v-clickoutside="() => setOpen(false)">
                 <ul class="j-select-list">
                     <li
                         v-for="(opt, i) in options"
                         :key="i"
                         class="j-select-option"
                         :class="getLiClass(opt, i)"
-                        @click="pickOption(opt, i)"
+                        @click.stop="pickOption(opt, i)"
                     >
-                        <!-- -->
                         <slot name="option" :option="opt">
                             {{ getOptionKey(opt) }}
-                            <!-- <span
-                                v-if="i == selectedIndex"
-                                class="j-select-option-check"
-                            >
-                            </span> -->
                         </slot>
                     </li>
                 </ul>
@@ -103,14 +97,11 @@ export default {
     },
     methods: {
         toggleDropdown() {
-            
             if (this.disabled) {
                 this.setOpen(false);
             } else if (this.isOpen) {
                 this.setOpen(false);
             } else {
-                // let el=   this.$el.querySelector("j-select-selection")
-                // utils.addClass(el, "drop-down")
                 this.setOpen(true);
             }
         },
@@ -141,14 +132,14 @@ export default {
         getOptionKey(option) {
             return typeof option == "object" ? option.label : option;
         },
-        parse(){
+        parse() {
             if (this.multiple) {
-                // 
+                //
             } else {
-                if (this.selectType=="value") {
-                    this.picked = this.value
+                if (this.selectType == "value") {
+                    this.picked = this.value;
                 } else {
-                    // 
+                    //
                 }
             }
         }
@@ -158,7 +149,7 @@ export default {
         clickoutside: clickOutside
     },
     beforeMount() {
-        this.parse()
+        this.parse();
     }
 };
 </script>
